@@ -1,6 +1,7 @@
 const fs = require("fs/promises");
 const path = require("path");
 const crypto = require("crypto");
+const chalk = require("chalk");
 
 const contactsPath = path.join(__dirname, "/db/contacts.json");
 
@@ -28,14 +29,18 @@ async function getContactById(contactId) {
 
 async function removeContact(contactId) {
   const contacts = await readContacts();
-  const index = contacts.findIndex(
-    (contact) => String(contact.id) === contactId
+
+  const removedContacts = contacts.filter(
+    (contact) => String(contact.id) !== contactId
   );
-  if (index !== undefined) {
-    contacts.splice(index, 1);
+  if (removedContacts.length !== contacts.length) {
+    await fs.writeFile(contactsPath, JSON.stringify(removedContacts, null, 2));
+    console.log(chalk.yellowBright("Contact removed!"));
+  } else {
+    console.log(chalk.red("No such Contact found!"));
   }
-  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 2));
-  return contacts;
+
+  return removedContacts;
 }
 
 async function addContact(name, email, phone) {

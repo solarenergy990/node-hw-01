@@ -51,10 +51,11 @@ function invokeAction({ action, id, name, email, phone }) {
       break;
 
     case "remove":
-      removeContact(id).then((contacts) => {
-        console.log(chalk.yellowBright("Contact removed!"));
-        console.log(contacts);
-      });
+      removeContact(id)
+        .then((contacts) => {
+          console.table(contacts);
+        })
+        .catch(console.error);
       break;
 
     default:
