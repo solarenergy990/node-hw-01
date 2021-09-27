@@ -17,8 +17,9 @@ const readContacts = async () => {
 };
 
 // TODO: задокументировать каждую функцию
-function listContacts() {
-  return readContacts();
+async function listContacts() {
+  const contacts = await readContacts();
+  return contacts;
 }
 
 async function getContactById(contactId) {
