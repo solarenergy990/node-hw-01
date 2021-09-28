@@ -6,9 +6,8 @@ const chalk = require("chalk");
 const contactsPath = path.join(__dirname, "/db/contacts.json");
 
 const readContacts = async () => {
-  const res = await fs.readFile(contactsPath, "utf8");
-
   try {
+    const res = await fs.readFile(contactsPath, "utf8");
     const contacts = JSON.parse(res);
     return contacts;
   } catch (error) {
